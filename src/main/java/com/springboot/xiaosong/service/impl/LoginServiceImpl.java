@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -27,5 +30,18 @@ public class LoginServiceImpl implements LoginService {
             return Result.success("欢迎登陆");
         }
         return Result.error("");
+    }
+
+    @Override
+    public Result<List> getInterface(int id){
+        // 获取 二级节点
+        List<Map<String,Object>> list =  loginDao.getInterface(id);
+        List<List<Map<String,Object>>> lists = new ArrayList<>();
+        for (Map<String,Object> map: list) {
+            List<Map<String,Object>> list1 = loginDao.getInterface(Integer.parseInt(map.get("id").toString()));
+            list1.add(0,map);
+            lists.add(list1);
+        }
+        return Result.success(lists);
     }
 }

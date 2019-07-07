@@ -128,6 +128,18 @@
     <logger name="org.springframework" level="WARN" />
     <logger name="org.hibernate" level="WARN" />
 
+    <!-- 控制台异步输出 -->
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+
+        <discardingThreshold>0</discardingThreshold>
+
+        <queueSize>100</queueSize>
+
+        <neverBlock>true</neverBlock>
+
+        <appender-ref ref="STDOUT"/>
+
+    </appender>
     <!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
     <root level="INFO">
         <appender-ref ref="FILEERROR" />
